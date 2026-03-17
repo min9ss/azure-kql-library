@@ -1,0 +1,722 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 23,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display:flex;justify-content:center;align-items:center;height:100%;font-size:30px;\"><b>[ 리소스 ]</b></div>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourcegroup"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resource"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "리소스 수"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "create"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "리소스 생성"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "delete"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "리소스 삭제"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subscription"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resourcecontainers\r\n| where type =~ \"microsoft.resources/subscriptions\"\r\n| summarize subscription = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "구독 수",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcecontainers | where type =~ 'microsoft.resources/subscriptions/resourcegroups' | summarize resourcegroup = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "리소스 그룹",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges | extend timestamp = todatetime(properties.changeAttributes.timestamp), change_type = properties.changeType | where timestamp >= ago(24h) and change_type == 'Create' | summarize create = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "리소스 생성",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges | extend timestamp = todatetime(properties.changeAttributes.timestamp), change_type = properties.changeType | where timestamp >= ago(24h) and change_type == 'Delete' | summarize delete = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "리소스 삭제",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "Resources | summarize resource = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "hide": true,
+          "queryType": "Azure Resource Graph",
+          "refId": "리소스 개수",
+          "subscriptions": [
+            "c128c333-e7cc-455a-9300-8ca86c941f48"
+          ]
+        }
+      ],
+      "title": "리소스 개요",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 24,
+        "w": 5,
+        "x": 0,
+        "y": 6
+      },
+      "id": 21,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "리소스 유형"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources | summarize ResourceCount = count() by type | extend type = tostring(split(type,'/')[ -1 ]) | order by ResourceCount desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        }
+      ],
+      "title": "유형별 리소스 개수",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "ResourceCount": "리소스 개수",
+              "type": "리소스 유형"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 24,
+        "w": 5,
+        "x": 5,
+        "y": 6
+      },
+      "id": 22,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources | summarize ResourceCount = count() by location | order by ResourceCount desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        }
+      ],
+      "title": "지역별 리소스 개수",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "ResourceCount": "리소스 개수",
+              "location": "지역"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 유형"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업 시간"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 이름"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "changedField"
+            },
+            "properties": [
+              {
+                "id": "displayName"
+              },
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "oldValue"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "이전 상태"
+              },
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "newValue"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "변경 작업"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 24,
+        "w": 14,
+        "x": 10,
+        "y": 6
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "작업 시간"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| extend \r\n    timestamp = todatetime(properties.changeAttributes.timestamp),\r\n    change_type = tostring(properties.changeType),\r\n    changed_by = replace('\"','', tostring(properties.changeAttributes.changedBy)),\r\n    resource = replace('\"','', tostring(split(properties.targetResourceType,'/')[ -1 ])),\r\n    resource_name = replace('\"','', tostring(split(properties.targetResourceId,'/')[ -1 ])),\r\n    resourceGroup = tostring(split(properties.targetResourceId, '/')[4])\r\n| where timestamp >= ago(24h) and change_type != 'Update'\r\n| project timestamp, change_type, resourceGroup, resource, resource_name, changed_by\r\n| order by timestamp desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        },
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where properties.changeType == \"Update\"\r\n| extend timestamp = todatetime(properties.changeAttributes.timestamp)\r\n| where timestamp >= ago(24h)\r\n| mv-expand change = properties.changes\r\n| extend changedField = tostring(bag_keys(change)[0])\r\n| extend \r\n    oldValue = tostring(change[changedField][\"previousValue\"]),\r\n    newValue = tostring(change[changedField][\"newValue\"]),\r\n    resourceGroup = tostring(split(properties.targetResourceId,'/')[4]),\r\n    resource = tostring(split(properties.targetResourceId,'/')[7]),\r\n    resource_name = tostring(split(properties.targetResourceId,'/')[8]),\r\n    changed_by = tostring(properties.changeAttributes.changedBy)\r\n| project timestamp, resourceGroup, resource, resource_name, changed_by, changedField, oldValue, newValue\r\n| order by timestamp desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscriptions": [
+            "$Subscription"
+          ]
+        }
+      ],
+      "title": "리소스 생성/삭제 (24시간)",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "change_type": 2,
+              "changed_by": 5,
+              "resource": 1,
+              "resourceGroup": 4,
+              "resource_name": 3,
+              "timestamp": 0
+            },
+            "renameByName": {
+              "change_type": "작업 ",
+              "changed_by": "작업자",
+              "resource": "리소스 유형",
+              "resourceGroup": "리소스 그룹",
+              "resource_name": "리소스 이름",
+              "timestamp": "작업 시간"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "NC",
+          "value": "dffkcdlrvbpc0f"
+        },
+        "name": "Datasource",
+        "options": [],
+        "query": "grafana-azure-monitor-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": [
+            "nc-aservice-systeminfra"
+          ],
+          "value": [
+            "fe1f57ac-e15a-42ff-9c0e-0c4a2cbf80be"
+          ]
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${Datasource}"
+        },
+        "includeAll": true,
+        "label": "구독",
+        "multi": true,
+        "name": "Subscription",
+        "options": [],
+        "query": {
+          "queryType": "Azure Subscriptions"
+        },
+        "refresh": 1,
+        "regexApplyTo": "value",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "1. Subscription - 전체 구독",
+  "uid": "ad7q62sd",
+  "version": 14,
+  "weekStart": ""
+}

@@ -1,0 +1,1055 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "description": "LB Probe 전체 합산",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "links": [],
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "Error"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 30
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "#EAB839",
+                "value": 90
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 67,
+      "options": {
+        "colorMode": "background_solid",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 20,
+          "valueSize": 80
+        },
+        "textMode": "value_and_name",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.4.1",
+      "repeat": "loadBalancer",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "$loadBalancer",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.network/loadbalancers",
+            "dimensionFilters": [],
+            "metricName": "DipAvailability",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "region": "",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "region": "",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto",
+            "top": ""
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "$subscription"
+        }
+      ],
+      "title": "LB Probe ($loadBalancer)",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 68,
+      "panels": [],
+      "repeat": "loadBalancer",
+      "title": "Metrics : $loadBalancer",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "description": "백엔드를 내부 IP로 구성한 경우 IP만,\n\n백엔드를 NIC로 구성한 경우 NIC명 + IP로 출력",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": false,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 3,
+        "x": 0,
+        "y": 7
+      },
+      "id": 70,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "showHeader": false
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{resourcename}} ({{FrontendIPAddress}})",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.network/loadbalancers",
+            "dimensionFilters": [
+              {
+                "dimension": "FrontendIPAddress",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "DipAvailability",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "region": "",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "region": "",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto",
+            "top": ""
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/loadBalancers\" and name =~ $loadBalancer\r\n| mv-expand  bepools = properties.backendAddressPools\r\n| project benic1 = bepools.properties.loadBalancerBackendAddresses\r\n| mv-expand  benic2 = benic1\r\n| project bepoolList = benic2.properties.ipAddress\r\n| where isnotnull(bepoolList)\r\n| project tostring(bepoolList)"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscription": "$subscription",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{resourcename}} ({{FrontendIPAddress}})",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.network/loadbalancers",
+            "dimensionFilters": [
+              {
+                "dimension": "FrontendIPAddress",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "DipAvailability",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "region": "",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "region": "",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto",
+            "top": ""
+          },
+          "azureResourceGraph": {
+            "query": "// NIC\r\nresources\r\n| where type contains \"Microsoft.Network/loadBalancers\" and name =~ $loadBalancer\r\n| mv-expand  bepools = properties.backendAddressPools\r\n| project benic1 = bepools.properties.loadBalancerBackendAddresses\r\n| mv-expand  benic2 = benic1\r\n| project ipconfId = tostring(benic2.properties.networkInterfaceIPConfiguration.id)\r\n| join kind=leftouter hint.strategy=shuffle(\r\n  resources\r\n  | where type =~ \"Microsoft.Network/networkInterfaces\"\r\n  | mv-expand ipconf = properties.ipConfigurations\r\n  | project privateIp = ipconf.properties.privateIPAddress, ipconfId = tostring(ipconf.id)) on ipconfId \r\n| parse ipconfId with * \"/networkInterfaces/\" nicName \"/\" *\r\n| where isnotempty(nicName)\r\n| project bepoolList = strcat(nicName, \" (\", privateIp, \")\")"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscription": "$subscription",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "LB Backend List",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "Error"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 30
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "#EAB839",
+                "value": 90
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 4,
+        "y": 7
+      },
+      "id": 51,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{resourcename}} ({{FrontendIPAddress}})",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.network/loadbalancers",
+            "dimensionFilters": [
+              {
+                "dimension": "FrontendIPAddress",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "DipAvailability",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "region": "",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "region": "",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto",
+            "top": ""
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "$subscription"
+        }
+      ],
+      "title": "LB Frontend Probe",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "Error"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 30
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "#EAB839",
+                "value": 99
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 11,
+        "y": 7
+      },
+      "id": 45,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{BackendIPAddress}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "customNamespace": "microsoft.network/loadbalancers",
+            "dimensionFilters": [
+              {
+                "dimension": "BackendIPAddress",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "DipAvailability",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "region": "",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "region": "",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto",
+            "top": ""
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "$subscription"
+        }
+      ],
+      "title": "LB Backend Probe ($loadBalancer)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 6,
+        "x": 18,
+        "y": 7
+      },
+      "id": 62,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Total",
+            "alias": "{{FrontendIPAddress}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [
+              {
+                "dimension": "FrontendIPAddress",
+                "filters": [],
+                "operator": "eq"
+              }
+            ],
+            "metricName": "ByteCount",
+            "metricNamespace": "microsoft.network/loadbalancers",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/loadbalancers",
+                "resourceGroup": "$resourceGroup_LB",
+                "resourceName": "$loadBalancer",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "auto"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "$subscription"
+        }
+      ],
+      "title": "LB Bytes ($loadBalancer)",
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "NC",
+          "value": "dffkcdlrvbpc0f"
+        },
+        "includeAll": false,
+        "label": "Datasource",
+        "name": "ds",
+        "options": [],
+        "query": "grafana-azure-monitor-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "nc-aservice-tt",
+          "value": "f5ecaec6-db77-41a2-a63f-333d3100a7ad"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "subscription",
+        "includeAll": false,
+        "label": "subscription",
+        "name": "subscription",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Subscriptions",
+          "refId": "A"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "nc-aservice-tt-mv",
+          "value": "nc-aservice-tt-mv"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "$resourceGroup_LB",
+        "label": "resourceGroup_LB",
+        "name": "resourceGroup_LB",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "resourcecontainers\r\n| where type =~ \"microsoft.resources/subscriptions/resourcegroups\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId) on subscriptionId \r\n| project res = strcat(name, ' (', subscriptionName, ')')"
+          },
+          "queryType": "Azure Resource Groups",
+          "refId": "A",
+          "subscription": "$subscription",
+          "subscriptions": [
+            "$SubID"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "'$loadBalancer'",
+        "includeAll": true,
+        "label": "LB",
+        "multi": true,
+        "name": "loadBalancer",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "namespace": "microsoft.network/loadbalancers",
+          "queryType": "Azure Resource Names",
+          "refId": "A",
+          "resourceGroup": "$resourceGroup_LB",
+          "subscription": "$subscription"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "NetworkWatcherRG",
+          "value": "NetworkWatcherRG"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "resourceGroup_AGW",
+        "hide": 2,
+        "label": "resourceGroup_AGW",
+        "name": "resourceGroup_AGW",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "resourcecontainers\r\n| where type =~ \"microsoft.resources/subscriptions/resourcegroups\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId) on subscriptionId \r\n| project res = strcat(name, ' (', subscriptionName, ')')"
+          },
+          "queryType": "Azure Resource Groups",
+          "refId": "A",
+          "subscription": "$subscription",
+          "subscriptions": [
+            "$SubID"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "'$agw'",
+        "hide": 2,
+        "includeAll": true,
+        "label": "AGW",
+        "multi": true,
+        "name": "agw",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "namespace": "microsoft.network/applicationgateways",
+          "queryType": "Azure Resource Names",
+          "refId": "A",
+          "resourceGroup": "$resourceGroup_AGW",
+          "subscription": "$subscription"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "NetworkWatcherRG",
+          "value": "NetworkWatcherRG"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "resourceGroup_VPN",
+        "hide": 2,
+        "label": "resourceGroup_VPN",
+        "name": "resourceGroup_VPN",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "resourcecontainers\r\n| where type =~ \"microsoft.resources/subscriptions/resourcegroups\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId) on subscriptionId \r\n| project res = strcat(name, ' (', subscriptionName, ')')"
+          },
+          "queryType": "Azure Resource Groups",
+          "refId": "A",
+          "subscription": "$subscription",
+          "subscriptions": [
+            "$SubID"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "description": "VPN",
+        "hide": 2,
+        "includeAll": true,
+        "label": "VPN",
+        "multi": true,
+        "name": "VPN",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "namespace": "microsoft.network/virtualnetworkgateways",
+          "queryType": "Azure Resource Names",
+          "refId": "A",
+          "resourceGroup": "$resourceGroup_VPN",
+          "subscription": "$subscription"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30m",
+      "1h",
+      "12h",
+      "24h",
+      "3d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "3.1. LB Metrics",
+  "uid": "adk8jrr",
+  "version": 21,
+  "weekStart": ""
+}

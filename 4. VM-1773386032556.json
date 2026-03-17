@@ -1,0 +1,1695 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 34,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #4b2e05; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fffdf0;\">\n    <span style=\"font-weight: 500;\">VM Status</span>\n</div>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "totalVMs"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "전체"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "runningCount"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "실행"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "deallocatedCount"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "중지"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 1
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 2,
+        "x": 0,
+        "y": 2
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "auto",
+        "wideLayout": false
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type == \"microsoft.compute/virtualmachines\"\r\n| summarize totalVMs = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type == \"microsoft.compute/virtualmachines\"\r\n| project vmState = tostring(properties.extended.instanceView.powerState.displayStatus)\r\n| where vmState contains \"VM running\"\r\n| summarize runningCount = count()\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type == \"microsoft.compute/virtualmachines\"\r\n| extend vmState = tostring(properties.extended.instanceView.powerState.displayStatus)\r\n| project vmState\r\n| where vmState contains \"VM deallocated\"\r\n| summarize deallocatedCount = count()"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "C",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "description": "VM 실행 중 - 녹색\n\nVM 중지 - 회색\n\n기타 상태 - 주황색",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "Value": {
+                  "color": "transparent",
+                  "index": 1
+                },
+                "deallocated": {
+                  "color": "#00000094",
+                  "index": 0
+                },
+                "running": {
+                  "color": "green",
+                  "index": 2
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "super-light-orange",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Field"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 22,
+        "x": 2,
+        "y": 2
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 12
+        },
+        "textMode": "name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where (type =~ \"microsoft.hybridcompute/machines\" and kind =~ \"AVS\") or type =~ \"microsoft.compute/virtualmachines\"\r\n| project Name = name, Value = tostring(split(tolower(properties.extended.instanceView.powerState.code), \"powerstate/\")[1])"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "VM Status",
+      "transformations": [
+        {
+          "id": "transpose",
+          "options": {
+            "firstFieldName": "VM Lists",
+            "restFieldsName": ""
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "region"
+            },
+            "properties": []
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 6,
+        "x": 0,
+        "y": 16
+      },
+      "id": 28,
+      "options": {
+        "basemap": {
+          "config": {
+            "server": "streets",
+            "showLabels": true,
+            "theme": "auto"
+          },
+          "name": "Layer 0",
+          "noRepeat": false,
+          "type": "carto"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": false,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "blur": 6,
+              "radius": 11,
+              "weight": {
+                "fixed": 1,
+                "max": 1,
+                "min": 0
+              }
+            },
+            "filterData": {
+              "id": "byRefId",
+              "options": "A"
+            },
+            "layer-tooltip": false,
+            "location": {
+              "mode": "auto"
+            },
+            "name": "Resource",
+            "opacity": 0.3,
+            "tooltip": true,
+            "type": "heatmap"
+          }
+        ],
+        "tooltip": {
+          "mode": "details"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "fit",
+          "lastOnly": false,
+          "lat": 0,
+          "layer": "Layer 1",
+          "lon": 0,
+          "noRepeat": false,
+          "shared": false,
+          "zoom": 15
+        }
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type =~ \"Microsoft.Compute/virtualMachines\" // VM 리소스만 필터링\r\n| summarize total = count() by location\r\n| extend region = case(\r\n    location =~ \"eastasia\", \"East Asia\",\r\n    location =~ \"southeastasia\", \"Southeast Asia\",\r\n    location =~ \"centralus\", \"Central US\",\r\n    location =~ \"eastus\", \"East US\",\r\n    location =~ \"eastus2\", \"East US 2\",\r\n    location =~ \"westus\", \"West US\",\r\n    location =~ \"westus2\", \"West US 2\",\r\n    location =~ \"westcentralus\", \"West Central US\",\r\n    location =~ \"northcentralus\", \"North Central US\",\r\n    location =~ \"southcentralus\", \"South Central US\",\r\n    location =~ \"northeurope\", \"North Europe\",\r\n    location =~ \"westeurope\", \"West Europe\",\r\n    location =~ \"australiaeast\", \"Australia East\",\r\n    location =~ \"australiasoutheast\", \"Australia Southeast\",\r\n    location =~ \"canadacentral\", \"Canada Central\",\r\n    location =~ \"canadaeast\", \"Canada East\",\r\n    location =~ \"uksouth\", \"UK South\",\r\n    location =~ \"ukwest\", \"UK West\",\r\n    location =~ \"koreacentral\", \"Korea Central\",\r\n    location =~ \"koreasouth\", \"Korea South\",\r\n    location =~ \"japaneast\", \"Japan East\", // 추가된 지역\r\n    \"N/A\")\r\n| where region != \"N/A\" // N/A 값을 제외\r\n| extend latitude = case(\r\n    location =~ \"eastasia\", 22.267,        // East Asia\r\n    location =~ \"southeastasia\", 1.283,    // Southeast Asia\r\n    location =~ \"centralus\", 41.5908,     // Central US\r\n    location =~ \"eastus\", 37.3719,        // East US\r\n    location =~ \"eastus2\", 36.6681,       // East US 2\r\n    location =~ \"westus\", 37.783,         // West US\r\n    location =~ \"westus2\", 47.233,        // West US 2\r\n    location =~ \"westcentralus\", 40.890,  // West Central US\r\n    location =~ \"northcentralus\", 41.8819,// North Central US\r\n    location =~ \"southcentralus\", 29.4167,// South Central US\r\n    location =~ \"northeurope\", 53.3478,   // North Europe\r\n    location =~ \"westeurope\", 52.3667,    // West Europe\r\n    location =~ \"australiaeast\", -33.86,   // Australia East\r\n    location =~ \"australiasoutheast\", -37.8136, // Australia Southeast\r\n    location =~ \"canadacentral\", 43.653,  // Canada Central\r\n    location =~ \"canadaeast\", 46.817,     // Canada East\r\n    location =~ \"uksouth\", 50.941,        // UK South\r\n    location =~ \"ukwest\", 53.427,         // UK West\r\n    location =~ \"koreacentral\", 37.5665,  // Korea Central\r\n    location =~ \"koreasouth\", 35.1796,    // Korea South\r\n    location =~ \"japaneast\", 35.6895,     // 추가된 지역의 위도\r\n    0.0)                                   // Default value if location not matched\r\n| extend longitude = case(\r\n    location =~ \"eastasia\", 114.188,      // East Asia\r\n    location =~ \"southeastasia\", 103.833,  // Southeast Asia\r\n    location =~ \"centralus\", -93.6208,    // Central US\r\n    location =~ \"eastus\", -79.8164,       // East US\r\n    location =~ \"eastus2\", -78.3889,      // East US 2\r\n    location =~ \"westus\", -122.417,       // West US\r\n    location =~ \"westus2\", -119.852,      // West US 2\r\n    location =~ \"westcentralus\", -110.234, // West Central US\r\n    location =~ \"northcentralus\", -87.6278,// North Central US\r\n    location =~ \"southcentralus\", -98.5,  // South Central US\r\n    location =~ \"northeurope\", -6.2597,   // North Europe\r\n    location =~ \"westeurope\", 4.9,        // West Europe\r\n    location =~ \"australiaeast\", 151.2094, // Australia East\r\n    location =~ \"australiasoutheast\", 144.9631, // Australia Southeast\r\n    location =~ \"canadacentral\", -79.383, // Canada Central\r\n    location =~ \"canadaeast\", -71.217,    // Canada East\r\n    location =~ \"uksouth\", -0.799,        // UK South\r\n    location =~ \"ukwest\", -3.084,         // UK West\r\n    location =~ \"koreacentral\", 126.9780, // Korea Central\r\n    location =~ \"koreasouth\", 129.0756,   // Korea South\r\n    location =~ \"japaneast\", 139.6917,    // 추가된 지역의 경도\r\n    0.0)                                    // Default value if location not matched\r\n| project total, region, latitude, longitude\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": ""
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "hide": true,
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "type": "geomap"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 18,
+        "x": 6,
+        "y": 16
+      },
+      "id": 33,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #4b2e05; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fffdf0;\">\n    <span style=\"font-weight: 500;\">VM Update</span>\n</div>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업 시간"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업 유형"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "create": {
+                        "color": "#989898",
+                        "index": 3
+                      },
+                      "create/update": {
+                        "index": 2,
+                        "text": "create"
+                      },
+                      "delete": {
+                        "color": "red",
+                        "index": 4
+                      },
+                      "restart": {
+                        "color": "yellow",
+                        "index": 5
+                      },
+                      "start": {
+                        "color": "green",
+                        "index": 0
+                      },
+                      "stop": {
+                        "color": "red",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VM (portal)"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Azure portal",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/"
+                  }
+                ]
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "구독"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 18,
+        "x": 6,
+        "y": 18
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "작업 시간"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where properties.targetResourceType =~ \"microsoft.compute/virtualmachines\"\r\n| extend\r\n    changeTime = todatetime(properties.changeAttributes.timestamp),\r\n    operation = tostring(properties.changeAttributes.operation),\r\n    changedBy = tostring(properties.changeAttributes.changedBy),\r\n    correlationId = tostring(properties.changeAttributes.correlationId),\r\n    resourceId = tostring(properties.targetResourceId)\r\n| parse resourceId with \"/subscriptions/\" subscriptionId \"/resourceGroups/\" resourceGroup \"/providers/Microsoft.Compute/virtualMachines/\" vmName\r\n| extend action = extract(@\"virtualMachines\\/([^\\/]+)\",1,operation)\r\n| extend ActionType = case(\r\n    action == \"start\", \"start\",\r\n    action == \"deallocate\", \"stop\",\r\n    action == \"restart\", \"restart\",\r\n    action == \"delete\", \"delete\",\r\n    action == \"write\", \"create/update\",\r\n    \"unknown\"\r\n)\r\n| where ActionType != \"unknown\"\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscription=name, subscriptionId\r\n) on subscriptionId\r\n| project-away subscriptionId, subscriptionId1\r\n| summarize arg_max(changeTime, *) by correlationId\r\n| project changeTime, subscription, resourceGroup, vmName, ActionType, changedBy, resourceId\r\n| order by changeTime desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "C",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "ActionType": false,
+              "correlationId": true,
+              "resource": true,
+              "resource_group": false,
+              "subscription": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "changed_by": 4,
+              "newState": 3,
+              "resource_group": 2,
+              "resource_name": 1,
+              "timestamp": 0
+            },
+            "renameByName": {
+              "ActionTime": "작업 시간",
+              "ActionType": "작업 유형",
+              "Time": "",
+              "User": "사용자",
+              "VmName": "VM 이름",
+              "changeTime": "작업 시간",
+              "change_type": "작업 유형",
+              "changedBy": "작업자",
+              "changed_by": "사용자",
+              "correlationId": "상관 ID",
+              "name": "VM",
+              "newState": "상태",
+              "resource": "",
+              "resourceGroup": "리소스 그룹",
+              "resource_group": "리소스그룹 ",
+              "resource_name": "VM",
+              "subscription": "구독",
+              "subscriptionId": "구독",
+              "subscriptionName": "구독",
+              "timestamp": "작업시간",
+              "vmName": "VM (portal)"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "create"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "VM 생성(24h)"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "delete"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "VM 삭제(24h)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 0,
+        "y": 29
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "same_as_value",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": true,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where type == 'microsoft.resources/changes'\r\n| extend timestamp = todatetime(properties.changeAttributes.timestamp),\r\n    change_type = properties.changeType,\r\n    resource = tostring(split(properties.targetResourceType, \"/\")[array_length(split(properties.targetResourceType, \"/\")) -1])\r\n| where timestamp >= ago(24h) and change_type == \"Create\"\r\n| where resource == \"virtualmachines\"  // VM만 필터링\r\n| summarize create = count()\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where type == 'microsoft.resources/changes'\r\n| extend timestamp = todatetime(properties.changeAttributes.timestamp),\r\n    change_type = properties.changeType,\r\n    resource = tostring(split(properties.targetResourceType, \"/\")[array_length(split(properties.targetResourceType, \"/\")) -1])\r\n| where timestamp >= ago(24h) and change_type == \"Delete\"\r\n| where resource == \"virtualmachines\"  // VM만 필터링\r\n| summarize delete = count()\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Disk"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "사용 Disk"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "미사용 Disk"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "text",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 1
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 3,
+        "y": 29
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {},
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type =~ \"Microsoft.Compute/disks\" // 디스크 리소스만 필터링\r\n| extend diskState = tostring(properties.diskState) // 디스크 상태 추출\r\n| summarize \r\n    unattachedDisks = countif(diskState == \"Unattached\"), // Unattached 상태 디스크 수\r\n    otherDisks = countif(diskState in (\"Attached\", \"Reserved\")) // Attached 또는 Reserved 상태 디스크 수\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "otherDisks": 0,
+              "unattachedDisks": 1
+            },
+            "renameByName": {
+              "otherDisks": "Disk",
+              "unattachedDisks": "미사용 Disk"
+            }
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 35,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #4b2e05; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fffdf0;\">\n    <span style=\"font-weight: 500;\">VM List</span>\n</div>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "상태"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "deallocated": {
+                        "color": "#969696",
+                        "index": 1
+                      },
+                      "running": {
+                        "color": "green",
+                        "index": 0
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "지역"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "공용 IP"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "사설 IP"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "크기"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vm (portal)"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Azure portal",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/"
+                  }
+                ]
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "구독"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "운영 체제"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "공용 IP"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "// VM + NIC + Public IP + Subscription 정보\r\nresources\r\n| where (type =~ \"microsoft.hybridcompute/machines\" and kind =~ \"AVS\") or type =~ \"microsoft.compute/virtualmachines\"\r\n| mvexpand nic=properties.networkProfile.networkInterfaces\r\n| project\r\n    id,\r\n    subscriptionId,\r\n    name,\r\n    powerState = coalesce(\r\n        properties.powerState,\r\n        properties.status.powerState,\r\n        tostring(split(tolower(properties.extended.instanceView.powerState.code), \"powerstate/\")[1])\r\n    ),\r\n    resourceGroup,\r\n    location,\r\n    vmSize = coalesce(tostring(properties.hardwareProfile.vmSize), '-'),\r\n    os = case(\r\n        properties.storageProfile.osDisk.osType =~ 'Windows' or properties.osProfile.osType =~ 'Windows', 'Windows',\r\n        properties.storageProfile.osDisk.osType =~ 'Linux' or properties.osProfile.osType =~ 'Linux', 'Linux',\r\n        '-'\r\n    ),\r\n    nicId = tostring(tolower(nic.id))\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'Microsoft.Network/networkInterfaces'\r\n    | mvexpand ipconfig = properties.ipConfigurations\r\n    | parse kind=regex tostring(ipconfig.properties.subnet.id) with '/virtualNetworks/' virtualNetwork '/subnets/' subnet\r\n    | project\r\n        nicId = tolower(id),\r\n        publicIpId = tostring(ipconfig.properties.publicIPAddress.id),\r\n        privateIPAddress = tostring(ipconfig.properties.privateIPAddress),\r\n        virtualNetwork\r\n) on nicId\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'microsoft.network/publicipaddresses'\r\n    | project\r\n        publicIpId = tostring(id),\r\n        publicIpAddress = tostring(properties.ipAddress)\r\n) on publicIpId\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ \"Microsoft.Compute/disks\"\r\n    | parse kind=regex managedBy with \"/virtualMachines/\" vmName\r\n    | project\r\n        diskName = name,\r\n        diskStatus = tostring(properties.diskState),\r\n        diskSizeGB = toint(properties.diskSizeGB),\r\n        storageType = tostring(sku.name),\r\n        vmName = coalesce(tostring(vmName), \"Not Attached\")\r\n) on $left.name == $right.vmName\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId\r\n) on subscriptionId\r\n| extend vmPortal = strcat(\"https://portal.azure.com/#resource\", id, \"/\")\r\n| project-away nicId, nicId1, publicIpId, publicIpId1, subscriptionId1\r\n| project\r\n    resourceId = id,\r\n    subscriptionName,\r\n    name,\r\n    resourceGroup,\r\n    location,\r\n    powerState,\r\n    publicIpAddress,\r\n    privateIPAddress,\r\n    vmSize,\r\n    os,\r\n    diskName,\r\n    diskStatus,\r\n    diskSizeGB,\r\n    storageType,\r\n    vmPortal\r\n| order by subscriptionName, resourceGroup, name"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "hide": true,
+          "queryType": "Azure Resource Graph",
+          "refId": "VM 목록 (디스크o, 그룹화 x)",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where (type =~ \"microsoft.hybridcompute/machines\" and kind =~ \"AVS\") or type =~ \"microsoft.compute/virtualmachines\"\r\n| mvexpand nic=properties.networkProfile.networkInterfaces\r\n| project\r\n    id,\r\n    subscriptionId,\r\n    name,\r\n    powerState = coalesce(\r\n        properties.powerState,\r\n        properties.status.powerState,\r\n        tostring(split(tolower(properties.extended.instanceView.powerState.code), \"powerstate/\")[1])\r\n    ),\r\n    resourceGroup,\r\n    location,\r\n    vmSize = coalesce(tostring(properties.hardwareProfile.vmSize), '-'),\r\n    os = case(\r\n        properties.storageProfile.osDisk.osType =~ 'Windows' or properties.osProfile.osType =~ 'Windows', 'Windows',\r\n        properties.storageProfile.osDisk.osType =~ 'Linux' or properties.osProfile.osType =~ 'Linux', 'Linux',\r\n        '-'\r\n    ),\r\n    nicId = tostring(tolower(nic.id))\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'Microsoft.Network/networkInterfaces'\r\n    | extend ipConfigsCount = array_length(properties.ipConfigurations)\r\n    | mvexpand ipconfig = properties.ipConfigurations limit 400\r\n    | parse kind=regex tostring(ipconfig.properties.subnet.id) with '/virtualNetworks/' virtualNetwork '/subnets/' subnet\r\n    | project\r\n        nicId = tolower(id),\r\n        publicIpId = tostring(ipconfig.properties.publicIPAddress.id),\r\n        privateIPAddress = tostring(ipconfig.properties.privateIPAddress),\r\n        virtualNetwork\r\n) on nicId\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'microsoft.network/publicipaddresses'\r\n    | project\r\n        publicIpId = tostring(id),\r\n        publicIpAddress = tostring(properties.ipAddress)\r\n) on publicIpId\r\n| project-away nicId, nicId1, publicIpId, publicIpId1\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId\r\n) on subscriptionId\r\n| project-away subscriptionId, subscriptionId1\r\n| extend vmPortal = strcat(\"https://portal.azure.com/#resource\", id)\r\n| project\r\n    resourceId = id,\r\n    subscriptionName,\r\n    name,\r\n    resourceGroup,\r\n    location,\r\n    powerState,\r\n    publicIpAddress,\r\n    privateIPAddress,\r\n    vmSize,\r\n    os\r\n| order by subscriptionName, resourceGroup, name"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "hide": true,
+          "queryType": "Azure Resource Graph",
+          "refId": "VM 목록 (디스크 x)",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where (type =~ \"microsoft.hybridcompute/machines\" and kind =~ \"AVS\") or type =~ \"microsoft.compute/virtualmachines\"\r\n| mvexpand nic=properties.networkProfile.networkInterfaces\r\n| project\r\n    id,\r\n    subscriptionId,\r\n    name,\r\n    powerState = coalesce(\r\n        properties.powerState,\r\n        properties.status.powerState,\r\n        tostring(split(tolower(properties.extended.instanceView.powerState.code), \"powerstate/\")[1])\r\n    ),\r\n    resourceGroup,\r\n    location,\r\n    vmSize = coalesce(tostring(properties.hardwareProfile.vmSize), '-'),\r\n    os = case(\r\n        properties.storageProfile.osDisk.osType =~ 'Windows' or properties.osProfile.osType =~ 'Windows', 'Windows',\r\n        properties.storageProfile.osDisk.osType =~ 'Linux' or properties.osProfile.osType =~ 'Linux', 'Linux',\r\n        '-'\r\n    ),\r\n    nicId = tostring(tolower(nic.id))\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'Microsoft.Network/networkInterfaces'\r\n    | mvexpand ipconfig = properties.ipConfigurations\r\n    | project\r\n        nicId = tolower(id),\r\n        publicIpId = tostring(ipconfig.properties.publicIPAddress.id),\r\n        privateIPAddress = tostring(ipconfig.properties.privateIPAddress)\r\n) on nicId\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ 'microsoft.network/publicipaddresses'\r\n    | project\r\n        publicIpId = tostring(id),\r\n        publicIpAddress = tostring(properties.ipAddress)\r\n) on publicIpId\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type =~ \"Microsoft.Compute/disks\"\r\n    | parse kind=regex managedBy with \"/virtualMachines/\" vmName\r\n    | summarize diskCount = count() by vmName\r\n) on $left.name == $right.vmName\r\n| extend diskCount = coalesce(diskCount, 0)\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = name, subscriptionId\r\n) on subscriptionId\r\n| project-away nicId, nicId1, publicIpId, publicIpId1, subscriptionId1, vmName\r\n| project\r\n    resourceId = id,\r\n    subscriptionName,\r\n    name,\r\n    resourceGroup,\r\n    location,\r\n    powerState,\r\n    publicIpAddress,\r\n    privateIPAddress,\r\n    vmSize,\r\n    os,\r\n    diskCount\r\n| order by subscriptionName, resourceGroup, name"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "VM 목록 (디스크 수)",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "diskStatus": true,
+              "os": false,
+              "publicIpAddress": false,
+              "resourceId": false,
+              "subscriptionName": false,
+              "virtualNetwork": true,
+              "vmPortal": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "diskCount": 9,
+              "location": 2,
+              "name": 3,
+              "os": 6,
+              "powerState": 4,
+              "privateIPAddress": 8,
+              "publicIpAddress": 7,
+              "resourceGroup": 1,
+              "resourceId": 10,
+              "subscriptionName": 0,
+              "vmSize": 5
+            },
+            "renameByName": {
+              "diskCount": "디스크",
+              "diskName": "디스크",
+              "diskSizeGB": "디스크 크기 (GB)",
+              "diskStatus": "디스크 상태",
+              "location": "지역",
+              "name": "vm (portal)",
+              "os": "운영 체제",
+              "powerState": "상태",
+              "privateIPAddress": "사설 IP",
+              "publicIpAddress": "공용 IP",
+              "resourceGroup": "리소스 그룹",
+              "resourceId": "",
+              "storageType": "디스크 유형",
+              "subscription": "구독",
+              "subscriptionName": "구독",
+              "virtualNetwork": "VNet",
+              "vmSize": "크기"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 36,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #4b2e05; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fffdf0;\">\n    <span style=\"font-weight: 500;\">Disk List</span>\n</div>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${Datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "상태"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Attached": {
+                        "color": "transparent",
+                        "index": 2
+                      },
+                      "Reserved": {
+                        "color": "#242424",
+                        "index": 1
+                      },
+                      "Unattached": {
+                        "color": "yellow",
+                        "index": 0,
+                        "text": "Unattached"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "디스크 크기(GB)"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "디스크"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Azure portal",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/"
+                  }
+                ]
+              },
+              {
+                "id": "displayName",
+                "value": "디스크 (portal)"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 50
+      },
+      "id": 31,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "상태"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type =~ \"Microsoft.Compute/disks\"\r\n| parse kind=regex managedBy with \"/virtualMachines/\" vmName\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = tostring(name), subscriptionId = tostring(subscriptionId)\r\n) on subscriptionId\r\n| project-away subscriptionId, subscriptionId1\r\n| project \r\n    name = tostring(name),\r\n    vmName = coalesce(tostring(vmName), \"Not Attached\"),\r\n    status = tostring(properties.diskState),\r\n    diskSizeGB = toint(properties.diskSizeGB),\r\n    storageType = tostring(sku.name),   // 여기\r\n    location = tostring(location),\r\n    resourceGroup = tostring(resourceGroup),\r\n    subscription = tostring(subscriptionName)\r\n| order by name asc\r\n| order by ['vmName'] asc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "hide": true,
+          "queryType": "Azure Resource Graph",
+          "refId": "디스크 목록(링크x)",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type =~ \"Microsoft.Compute/disks\"\r\n| parse kind=regex managedBy with \"/virtualMachines/\" vmName\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subscriptionName = tostring(name), subscriptionId = tostring(subscriptionId)\r\n) on subscriptionId\r\n| project-away subscriptionId, subscriptionId1\r\n| extend resourceId = id  // Portal Data Link용\r\n| project \r\n    name = tostring(name),\r\n    vmName = coalesce(tostring(vmName), \"Not Attached\"),\r\n    status = tostring(properties.diskState),\r\n    diskSizeGB = toint(properties.diskSizeGB),\r\n    storageType = tostring(sku.name),\r\n    location = tostring(location),\r\n    resourceGroup = tostring(resourceGroup),\r\n    subscription = tostring(subscriptionName),\r\n    resourceId\r\n| order by vmName asc, name asc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${Datasource}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "디스크 목록",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "location": true,
+              "status": false,
+              "subscription": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "diskSizeGB": 5,
+              "location": 8,
+              "name": 2,
+              "resourceGroup": 1,
+              "resourceId": 6,
+              "status": 3,
+              "storageType": 4,
+              "subscription": 0,
+              "vmName": 7
+            },
+            "renameByName": {
+              "diskSizeGB": "디스크 크기(GB)",
+              "location": "지역",
+              "name": "디스크",
+              "resourceGroup": "리소스 그룹",
+              "sku": "디스크 유형",
+              "status": "상태",
+              "storageType": "디스크 유형",
+              "subscription": "구독",
+              "vmName": "연결된 VM"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "NC",
+          "value": "dffkcdlrvbpc0f"
+        },
+        "name": "Datasource",
+        "options": [],
+        "query": "grafana-azure-monitor-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": [
+            "nc-aservice-tt"
+          ],
+          "value": [
+            "f5ecaec6-db77-41a2-a63f-333d3100a7ad"
+          ]
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${Datasource}"
+        },
+        "definition": "",
+        "includeAll": true,
+        "label": "구독",
+        "multi": true,
+        "name": "subscriptions",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Subscriptions",
+          "refId": "A"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "affjshuoisp34d"
+        },
+        "definition": "",
+        "description": "",
+        "hide": 2,
+        "includeAll": true,
+        "label": "resourceGroup",
+        "multi": true,
+        "name": "resourceGroup",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Resource Groups",
+          "refId": "A",
+          "subscription": "$subscriptions"
+        },
+        "refresh": 1,
+        "regex": "Resources\n| where type == \"microsoft.compute/virtualmachinescalesets\"\n| where name == \"$vmss\"  // 특정 VMSS 이름\n| project resourceGroup",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "affjshuoisp34d"
+        },
+        "definition": "",
+        "hide": 2,
+        "name": "virtualmachinescalesets",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type == \"microsoft.compute/virtualmachinescalesets\"\r\n| project name\r\n"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "affjshuoisp34d"
+        },
+        "definition": "",
+        "hide": 2,
+        "name": "SubscriptionId",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "Resources\r\n| where type == \"microsoft.compute/virtualmachinescalesets\"  // 올바른 VMSS 타입\r\n| where name == \"$virtualmachinescalesets\"  // 특정 VMSS 이름 필터링\r\n| project subscriptionId\r\n| join kind=inner (\r\n    resourcecontainers\r\n    | where type == \"microsoft.resources/subscriptions\"  // 구독 정보 가져오기\r\n    | project subscriptionId, name\r\n) on subscriptionId\r\n| project subscriptionId, name  // 구독 ID와 이름 출력\r\n"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptions"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "4. VM",
+  "uid": "fe76be54f41kwf",
+  "version": 71,
+  "weekStart": ""
+}

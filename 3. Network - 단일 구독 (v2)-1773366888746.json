@@ -1,0 +1,2641 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 76,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #d1ebff; border: 10px solid #d1ebff;\">\n    <span style=\"font-weight: 500;\">공용 IP DDoS 공격 여부</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 2
+      },
+      "hideTimeOverride": true,
+      "id": 75,
+      "interval": "1m",
+      "maxPerRow": 12,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 13
+        },
+        "textMode": "name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "repeat": "pip",
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "azureMonitor": {
+            "aggregation": "Average",
+            "alias": "{{resourcename}}",
+            "allowedTimeGrainsMs": [
+              60000,
+              300000,
+              900000,
+              1800000,
+              3600000,
+              21600000,
+              43200000,
+              86400000
+            ],
+            "dimensionFilters": [],
+            "metricName": "IfUnderDDoSAttack",
+            "metricNamespace": "microsoft.network/publicipaddresses",
+            "region": "eastus2",
+            "resources": [
+              {
+                "metricNamespace": "microsoft.network/publicipaddresses",
+                "region": "eastus2",
+                "resourceGroup": "${pip.rg}",
+                "resourceName": "${pip.name}",
+                "subscription": "$subscription"
+              }
+            ],
+            "timeGrain": "PT1M",
+            "top": ""
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Monitor",
+          "refId": "A",
+          "subscription": "$subscription"
+        }
+      ],
+      "timeFrom": "now-2m",
+      "title": "",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 4,
+        "x": 0,
+        "y": 8
+      },
+      "id": 67,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #d1ebff;\">\n    <span style=\"font-weight: 500;\">리소스 수량</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 20,
+        "x": 4,
+        "y": 8
+      },
+      "id": 69,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #d1ebff;  border: 10px solid #d1ebff;\">\n    <span style=\"font-weight: 500;\">리소스 변경 내역</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 10
+      },
+      "id": 60,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/loadBalancers\"\r\n| summarize Count = count() by subscriptionId "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "LB",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 10
+      },
+      "id": 65,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/applicationGateways\"\r\n| summarize Count = count() by subscriptionId "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "AGW",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "description": "24시간 이내 리소스 변경",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "UPDATE"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Update"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "CREATE"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Create"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "DELETE"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Delete"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 3,
+        "x": 4,
+        "y": 10
+      },
+      "id": 68,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 15,
+          "valueSize": 30
+        },
+        "textMode": "value_and_name",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where properties.targetResourceType contains 'microsoft.Network'\r\n\tand properties.changeAttributes.correlationId != '00000000-0000-0000-0000-000000000000'\r\n| extend KST = datetime_add('hour',9,todatetime(properties.changeAttributes.timestamp))\r\n| extend changeTime=format_datetime(KST,'yy-MM-dd [HH:mm]')\r\n| where todatetime(properties.changeAttributes.timestamp) > ago(24h) and properties.changeType =~ \"update\"\r\n| count "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "UPDATE",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where properties.targetResourceType contains 'microsoft.Network'\r\n\tand properties.changeAttributes.correlationId != '00000000-0000-0000-0000-000000000000'\r\n| extend KST = datetime_add('hour',9,todatetime(properties.changeAttributes.timestamp))\r\n| extend changeTime=format_datetime(KST,'yy-MM-dd [HH:mm]')\r\n| where todatetime(properties.changeAttributes.timestamp) > ago(24h) and properties.changeType =~ \"create\"\r\n| count "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "CREATE",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where properties.targetResourceType contains 'microsoft.Network'\r\n\tand properties.changeAttributes.correlationId != '00000000-0000-0000-0000-000000000000'\r\n| extend KST = datetime_add('hour',9,todatetime(properties.changeAttributes.timestamp))\r\n| extend changeTime=format_datetime(KST,'yy-MM-dd [HH:mm]')\r\n| where todatetime(properties.changeAttributes.timestamp) > ago(24h) and properties.changeType =~ \"delete\"\r\n| count "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "DELETE",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "변경 (24h)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "minWidth": 50
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "삭제"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 7,
+        "y": 10
+      },
+      "id": 72,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where type == \"microsoft.resources/changes\"\r\n| extend \r\n    timestamp = todatetime(properties.changeAttributes.timestamp),\r\n    change_type = tostring(properties.changeType),\r\n    resourceType = tostring(properties.targetResourceType)\r\n| where timestamp >= ago(24h)\r\n| where change_type == \"Delete\"\r\n| where resourceType startswith \"Microsoft.Network/\"\r\n| extend resource = tostring(split(resourceType, \"/\")[1])\r\n| summarize create = count() by resource\r\n| order by create desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "리소스 삭제",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "create": "삭제",
+              "resource": "리소스 유형"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Res"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 486
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "User"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 408
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "All_Resource_Lists"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              },
+              {
+                "id": "displayName",
+                "value": "전체 대상 리소스"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Resource"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 416
+              },
+              {
+                "id": "displayName",
+                "value": "대상 리소스"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ActionTime"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 157
+              },
+              {
+                "id": "displayName",
+                "value": "변경 시각"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "rg"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subs"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Resource"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "changeType"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 172
+              },
+              {
+                "id": "displayName",
+                "value": "변경 사항"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "User"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "사용자"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "correlationId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "대상 리소스"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 267
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "구독"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 133
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 153
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "변경 시각"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 143
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "사용자"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 365
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "id": 39,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "\r\nresourcechanges\r\n| where properties.targetResourceType contains 'microsoft.Network'\r\n\tand properties.changeAttributes.correlationId != '00000000-0000-0000-0000-000000000000'\r\n| extend KST = datetime_add('hour',9,todatetime(properties.changeAttributes.timestamp))\r\n| extend changeTime=format_datetime(KST,'yy-MM-dd [HH:mm]')\r\n| where todatetime(properties.changeAttributes.timestamp) > ago(24h) and (properties.changeType =~ \"create\" or properties.changeType =~ \"delete\")\r\n| parse properties.targetResourceId with * '/Microsoft.Network/' ResType '/' ResName\r\n| project changeTime, Res = strcat_array(pack_array(ResName,\"(\",ResType,')') ,''),changeType = properties.changeType, changedBy=properties.changeAttributes.changedBy,  correlationId=tostring(properties.changeAttributes.correlationId), resourceGroup,ResName\r\n| summarize\r\n    ActionTime=arg_max(changeTime,changeTime),\r\n    resourceGroup=make_set(resourceGroup),\r\n    Res=make_set(Res),\r\n    ResName=make_set(ResName),\r\n    changeType=make_set(changeType),\r\n    User=make_set(changedBy)\r\n    by correlationId\r\n| project ActionTime , ResName = tostring(ResName.[0]), ResCount = tostring(countof (tostring(Res),\"(\")), rg = strcat_array(resourceGroup, \",\"), User1 = strcat_array(User, \", \"), changeType = strcat_array(changeType, \",\"), All_Resource_Lists = strcat_array(Res, \",\\n\"), correlationId\r\n| extend User2=replace_string(User1,'2cf9eb86-36b5-49dc-86ae-9a63135dfa8c', 'Azure Traffic Manager and DNS')\r\n| extend User=replace_string(User2,'7319c514-987d-4e9b-ac3d-d38c4f427f4c', 'AzureContainerService')\r\n| project ActionTime, rg, Resource = strcat(ResName,\"  (Total : \",ResCount,\")\"), changeType,  User,All_Resource_Lists, correlationId\r\n| order by ActionTime desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "네트워크 관련 리소스 변경사항",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 0,
+        "y": 14
+      },
+      "id": 55,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type =~ \"microsoft.Network/virtualnetworks\"\r\n| summarize Count = count() by subscriptionId \r\n\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "a",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "Vnet",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 2,
+        "x": 2,
+        "y": 14
+      },
+      "id": 64,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type has \"microsoft.Network/networksecuritygroups\"\r\n| summarize Count = count() by subscriptionId \r\n| join kind=inner hint.strategy=shuffle(\r\n    resourcecontainers\r\n    | where type =~ \"microsoft.resources/subscriptions\"\r\n    | project subsName = name, subscriptionId) on subscriptionId \r\n| project subsName, Count\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "NSG",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "minWidth": 50
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 7,
+        "y": 16
+      },
+      "id": 71,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": false,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resourcechanges\r\n| where type == \"microsoft.resources/changes\"\r\n| extend \r\n    timestamp = todatetime(properties.changeAttributes.timestamp),\r\n    change_type = tostring(properties.changeType),\r\n    resourceType = tostring(properties.targetResourceType)\r\n| where timestamp >= ago(24h)\r\n| where change_type == \"Create\"\r\n| where resourceType startswith \"Microsoft.Network/\"\r\n| extend resource = tostring(split(resourceType, \"/\")[1])\r\n| summarize create = count() by resource\r\n| order by create desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "리소스 생성",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "dffkcdlrvbpc0f"
+      },
+      "description": "전체 / 미연결",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 18
+      },
+      "id": 62,
+      "interval": "1m",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "/^Count$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "value",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/PublicIpAddresses\"\r\n| summarize Count = count() by subscriptionId "
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "dffkcdlrvbpc0f"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/PublicIpAddresses\" and (isempty(properties.ipConfiguration) and isempty(properties.natGateway))\r\n| count"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "dffkcdlrvbpc0f"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "C",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "공용 IP",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 70,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #d1ebff; border: 10px solid #d1ebff;\">\n    <span style=\"font-weight: 500;\">리소스 세부 정보</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "left",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Peering"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "[]": {
+                        "index": 0,
+                        "text": "None"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 411
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Snet"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": false
+              },
+              {
+                "id": "displayName",
+                "value": "Subnet"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subscription"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독명"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IpPrefix"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable"
+              },
+              {
+                "id": "displayName",
+                "value": "IP Address"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceGroup"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "VnetName"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Vnet"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "구독명"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 138
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Vnet"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 224
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 198
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 271
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Subnet"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 98
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "id": 32,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "구독명"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type has \"microsoft.Network/virtualnetworks\"\r\n| extend IpPrefix = replace(\"['\\\"\\\\[\\\\]]\", \"\", tostring(properties.addressSpace.addressPrefixes))\r\n| project id, resourceGroup, VnetName = name,IpPrefix, Snet = array_length(properties.subnets)\r\n| join kind=leftouter hint.strategy=shuffle(\r\n    resources\r\n    | where type has \"microsoft.Network/virtualnetworks\"\r\n    | project id, properties\r\n    | mv-expand peers = properties.virtualNetworkPeerings\r\n    | project id, remoteVnet = peers.properties.remoteVirtualNetwork.id\r\n    | parse remoteVnet with * \"/virtualNetworks/\" remoteVnetName\r\n    | order by id asc) on id\r\n| project resourceGroup, VnetName, IpPrefix, Snet, remoteVnetName, ispeered = isnotempty(remoteVnetName)\r\n| summarize Peering = make_list_if(remoteVnetName, ispeered > 0) by resourceGroup, VnetName, IpPrefix, Snet\r\n| project resourceGroup, VnetName, IpPrefix, Snet, Peering = strcat_array(Peering,', ')"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "Vnet 상세 정보",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Snet_Name"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Subnet"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Vnet"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 252
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP_Prefix"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 203
+              },
+              {
+                "id": "displayName",
+                "value": "IP Address"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subscription"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독명"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceGroup"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Subnet"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 295
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "구독명"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 134
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP Address"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 132
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 196
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 33,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Vnet"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "\r\nresources\r\n| where type has \"microsoft.Network/virtualnetworks\" \r\n| mv-expand SubNet = properties.subnets\r\n| extend snetPrefix = strcat_array(SubNet.properties.addressPrefixes,\"\")\r\n| project  resourceGroup,Vnet = name, Snet_Name=tostring(SubNet.name), IP_Prefix = coalesce(SubNet.properties.addressPrefix,snetPrefix),NSG = coalesce(tostring(split(SubNet.properties.networkSecurityGroup.id, \"/\")[8]), \"No NSG\")"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "Subnets",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "transparent",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "applyToRow": false,
+              "mode": "gradient",
+              "type": "color-background"
+            },
+            "filterable": true,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "Allow": {
+                  "color": "green",
+                  "index": 0
+                },
+                "Deny": {
+                  "color": "red",
+                  "index": 1
+                },
+                "Inbound": {
+                  "color": "blue",
+                  "index": 2
+                },
+                "Outbound": {
+                  "color": "orange",
+                  "index": 3
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Priority"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 88
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "access"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 99
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "displayName",
+                "value": "Access"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SourcePort"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 119
+              },
+              {
+                "id": "displayName",
+                "value": "Source Port"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DestinationIp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 157
+              },
+              {
+                "id": "noValue",
+                "value": "*"
+              },
+              {
+                "id": "displayName",
+                "value": "Destination IP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SourceIp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 338
+              },
+              {
+                "id": "displayName",
+                "value": "Source IP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "direction"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 129
+              },
+              {
+                "id": "displayName",
+                "value": "Direction"
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 188
+              },
+              {
+                "id": "displayName",
+                "value": "NSG Name"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RuleName"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 254
+              },
+              {
+                "id": "displayName",
+                "value": "Rule Name"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Protocol"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DestinationPort"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Destination Port"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "SourceIp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 499
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "DestinationIp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 632
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source Port"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 142
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "NSG Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 248
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Destination IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 144
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Source IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 499
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Rule Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 247
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subscription"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독명"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceGroup"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 그룹"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 203
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 53,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type has \"microsoft.Network/networksecuritygroups\"\r\n| mv-expand rules = properties.securityRules\r\n| project\r\n    resourceGroup,name,\r\n    direction = tostring(rules.properties.direction),\r\n    RuleName = tostring(rules.name),\r\n    Priority = toint(rules.properties.priority),\r\n    access = tostring(rules.properties.access),\r\n    Protocol = toupper(tostring(rules.properties.protocol)),\r\n    SourceIp = strcat(strcat_array(rules.properties.sourceAddressPrefixes,', '),strcat_array(rules.properties.sourceAddressPrefix,', ')),\r\n    SourcePort = strcat(strcat_array(rules.properties.sourcePortRanges,', '),strcat_array(rules.properties.sourcePortRange,', ')) ,\r\n    DestinationIp = strcat(strcat_array(properties.destinationAddressPrefix,', '),strcat_array(rules.properties.destinationAddressPrefixes,', ')),\r\n    DestinationPort = strcat(strcat_array(rules.properties.destinationPortRange,', '),strcat_array(rules.properties.destinationPortRanges,', '))\r\n| order by name asc, direction asc, Priority asc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "NSG",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "${ds}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": false,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 131
+              },
+              {
+                "id": "displayName",
+                "value": "Name"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 502
+              },
+              {
+                "id": "displayName",
+                "value": "Frontend IP"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "subscription"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "구독명"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceGroup"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "리소스 그룹"
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "type"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "microsoft.network/applicationgateways": {
+                        "color": "blue",
+                        "index": 1,
+                        "text": "AGW"
+                      },
+                      "microsoft.network/loadbalancers": {
+                        "color": "green",
+                        "index": 0,
+                        "text": "LB"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "displayName",
+                "value": "Type"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceGroup"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 174
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "type"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 1050
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 48
+      },
+      "id": 42,
+      "interval": "1m",
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "구독명"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureResourceGraph": {
+            "query": "// 외부 부하 분산 장치\r\nresources\r\n| where type contains \"Microsoft.Network/loadBalancers\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resources\r\n    | where type contains \"Microsoft.Network/loadBalancers\"\r\n    | project id, properties\r\n    | mv-expand FrontendIPconf = properties.frontendIPConfigurations\r\n    | project id, FrontendIP = FrontendIPconf.properties.publicIPAddress.id) on id    \r\n| project name, resourceGroup, FrontendIP = tostring(FrontendIP), type\r\n| join kind=inner (\r\n    resources\r\n    | where type contains \"Microsoft.Network/publicIPAddresses\"\r\n    | project FrontendIP = id, name, IP = properties.ipAddress) on FrontendIP\r\n| summarize IP = make_set(IP) by name, resourceGroup, type\r\n| project type, resourceGroup,name, IP = strcat_array(IP, \", \")"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "// 내부 부하 분산 장치\r\nresources\r\n| where type contains \"Microsoft.Network/loadBalancers\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resources\r\n    | where type contains \"Microsoft.Network/loadBalancers\"\r\n    | project id, properties\r\n    | mv-expand FrontendIPconf = properties.frontendIPConfigurations\r\n    | project id, FrontendIP = FrontendIPconf.properties.privateIPAddress) on id    \r\n| project name, resourceGroup, FrontendIP = tostring(FrontendIP), type\r\n| where isnotempty(FrontendIP)\r\n| summarize IP = make_set(FrontendIP) by name, resourceGroup, type\r\n| project type, resourceGroup,name, IP = strcat_array(IP, \", \")"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${DS_MPN-EUNBI}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "C",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        {
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type contains \"Microsoft.Network/applicationGateways\"\r\n| join kind=inner hint.strategy=shuffle(\r\n    resources\r\n    | where type contains \"Microsoft.Network/applicationGateways\"\r\n    | project id, properties\r\n    | mv-expand FrontendIPconf = properties.frontendIPConfigurations\r\n    | project id, FrontendIP = FrontendIPconf.properties.publicIPAddress.id) on id    \r\n| project name, resourceGroup, FrontendIP = tostring(FrontendIP),type\r\n| join kind=inner (\r\n    resources\r\n    | where type contains \"Microsoft.Network/publicIPAddresses\"\r\n    | project FrontendIP = id, name, IP = properties.ipAddress) on FrontendIP\r\n| summarize IP = make_set(IP) by name, resourceGroup,type\r\n| project resourceGroup,type,name, IP = strcat_array(IP, \", \")\r\n\r\n\r\n"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "B",
+          "subscriptions": [
+            "$subscription"
+          ]
+        }
+      ],
+      "title": "LB & AGW Lists",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 57
+      },
+      "id": 74,
+      "panels": [
+        {
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 2,
+            "w": 24,
+            "x": 0,
+            "y": 76
+          },
+          "id": 78,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #d1ebff; border: 10px solid #d1ebff;\">\n    <span style=\"font-weight: 500;\">공용 IP DDoS 관련 세부 메트릭</span>\n</div>\n",
+            "mode": "markdown"
+          },
+          "pluginVersion": "12.4.1",
+          "title": "",
+          "transparent": true,
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "${ds}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMin": 0,
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "showValues": false,
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": 0
+                  }
+                ]
+              },
+              "unit": "KBs"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 78
+          },
+          "id": 77,
+          "maxPerRow": 4,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.4.1",
+          "repeat": "pip",
+          "repeatDirection": "h",
+          "targets": [
+            {
+              "azureMonitor": {
+                "aggregation": "Maximum",
+                "alias": "{{Metric}}",
+                "allowedTimeGrainsMs": [
+                  60000,
+                  300000,
+                  900000,
+                  1800000,
+                  3600000,
+                  21600000,
+                  43200000,
+                  86400000
+                ],
+                "dimensionFilters": [],
+                "metricName": "DDoSTriggerTCPPackets",
+                "metricNamespace": "microsoft.network/publicipaddresses",
+                "region": "eastus2",
+                "resources": [
+                  {
+                    "metricNamespace": "microsoft.network/publicipaddresses",
+                    "region": "eastus2",
+                    "resourceGroup": "${pip.rg}",
+                    "resourceName": "${pip.name}",
+                    "subscription": "$subscription"
+                  }
+                ],
+                "timeGrain": "auto",
+                "top": ""
+              },
+              "datasource": {
+                "type": "grafana-azure-monitor-datasource",
+                "uid": "${ds}"
+              },
+              "queryType": "Azure Monitor",
+              "refId": "A",
+              "subscription": "$subscription"
+            },
+            {
+              "azureMonitor": {
+                "aggregation": "Maximum",
+                "alias": "{{Metric}}",
+                "allowedTimeGrainsMs": [
+                  60000,
+                  300000,
+                  900000,
+                  1800000,
+                  3600000,
+                  21600000,
+                  43200000,
+                  86400000
+                ],
+                "dimensionFilters": [],
+                "metricName": "DDoSTriggerUDPPackets",
+                "metricNamespace": "microsoft.network/publicipaddresses",
+                "region": "eastus2",
+                "resources": [
+                  {
+                    "metricNamespace": "microsoft.network/publicipaddresses",
+                    "region": "eastus2",
+                    "resourceGroup": "${pip.rg}",
+                    "resourceName": "${pip.name}",
+                    "subscription": "$subscription"
+                  }
+                ],
+                "timeGrain": "auto",
+                "top": ""
+              },
+              "datasource": {
+                "type": "grafana-azure-monitor-datasource",
+                "uid": "${ds}"
+              },
+              "queryType": "Azure Monitor",
+              "refId": "B",
+              "subscription": "$subscription"
+            },
+            {
+              "azureMonitor": {
+                "aggregation": "Maximum",
+                "alias": "{{Metric}}",
+                "allowedTimeGrainsMs": [
+                  60000,
+                  300000,
+                  900000,
+                  1800000,
+                  3600000,
+                  21600000,
+                  43200000,
+                  86400000
+                ],
+                "dimensionFilters": [],
+                "metricName": "DDoSTriggerSYNPackets",
+                "metricNamespace": "microsoft.network/publicipaddresses",
+                "region": "eastus2",
+                "resources": [
+                  {
+                    "metricNamespace": "microsoft.network/publicipaddresses",
+                    "region": "eastus2",
+                    "resourceGroup": "${pip.rg}",
+                    "resourceName": "${pip.name}",
+                    "subscription": "$subscription"
+                  }
+                ],
+                "timeGrain": "auto",
+                "top": ""
+              },
+              "datasource": {
+                "type": "grafana-azure-monitor-datasource",
+                "uid": "${ds}"
+              },
+              "queryType": "Azure Monitor",
+              "refId": "C",
+              "subscription": "$subscription"
+            }
+          ],
+          "title": "${pip.name}",
+          "type": "timeseries"
+        }
+      ],
+      "title": "DDoS",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "NC",
+          "value": "dffkcdlrvbpc0f"
+        },
+        "includeAll": false,
+        "label": "Datasource",
+        "name": "ds",
+        "options": [],
+        "query": "grafana-azure-monitor-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "nc-aservice-tt",
+          "value": "f5ecaec6-db77-41a2-a63f-333d3100a7ad"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "includeAll": false,
+        "label": "구독명",
+        "name": "subscription",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Subscriptions",
+          "refId": "A"
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "allowCustomValue": false,
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "${ds}"
+        },
+        "definition": "",
+        "includeAll": true,
+        "multi": true,
+        "name": "pip",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "azureResourceGraph": {
+            "query": "resources\r\n| where type =~ \"microsoft.network/publicipaddresses\" \r\n| project text = name, name, rg = resourceGroup\r\n| order by text asc"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscription"
+          ]
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30m",
+      "1h",
+      "12h",
+      "24h",
+      "3d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "3. Network - 단일 구독 (v2)",
+  "uid": "adsjxg4",
+  "version": 11,
+  "weekStart": ""
+}

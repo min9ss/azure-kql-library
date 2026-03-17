@@ -1,0 +1,1570 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fff0f6 ;\">\n    <span style=\"font-weight: 500;\">Resource Health (Coumpute)</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 14,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fff0f6 ;\">\n    <span style=\"font-weight: 500;\">Administrative (Coumpute)</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "affnc1vejv3swd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 이름"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "resourceId",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/resourcehealth"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "이벤트 요약"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Unknown": {
+                        "index": 0,
+                        "text": "-"
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": ".*Redeploy.*",
+                      "result": {
+                        "color": "light-red",
+                        "index": 1
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 230
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "이벤트 상세 "
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Unknown": {
+                        "index": 0,
+                        "text": "-"
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": ".*down.*",
+                      "result": {
+                        "color": "light-red",
+                        "index": 1
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 500
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "심각도"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Critical": {
+                        "color": "light-red",
+                        "index": 0
+                      },
+                      "Error": {
+                        "color": "light-orange",
+                        "index": 1
+                      },
+                      "Informational": {
+                        "color": "light-green",
+                        "index": 3
+                      },
+                      "Warning": {
+                        "color": "light-yellow",
+                        "index": 2
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 14,
+        "x": 0,
+        "y": 1
+      },
+      "id": 12,
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "affnc1vejv3swd"
+          },
+          "filters": [],
+          "format": "dataframe",
+          "global_query_id": "",
+          "parser": "uql",
+          "refId": "yes",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\r\n| scope \"value\"\r\n| where \"category.value\"=='ResourceHealth'\r\n| extend \"resourceName\"=extract('.*/([^/]+)$',1,\"resourceId\")\r\n| extend \"_dt\"=todatetime(\"eventTimestamp\")\r\n| extend \"timestamp\"=format_datetime(\"_dt\",'YYYY-MM-DD HH:mm:ss')\r\n| extend \"status_at\"=strcat(\"status.localizedValue\",' at ',\"timestamp\")\r\n| project \"level\", \"title\"=\"properties.title\", \"details\"=\"properties.details\", \"resourceName\"=tolower(\"resourceName\"), \"status_at\", \"resourceId\"\r\n| order by \"_dt\" desc",
+          "url": "https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp%20ge%20'${__from:date:iso}'%20and%20eventTimestamp%20le%20'${__to:date:iso}'%20and%20resourceProvider%20eq%20'Microsoft.Compute'",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "details": false,
+              "resourceId": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "details": 3,
+              "level": 0,
+              "resourceName": 1,
+              "status_at": 4,
+              "title": 2
+            },
+            "renameByName": {
+              "details": "이벤트 상세 ",
+              "level": "심각도",
+              "resourceId": "",
+              "resourceName": "리소스 이름",
+              "status": "상태",
+              "status_at": "상태",
+              "timestamp": "시간대",
+              "title": "이벤트 요약"
+            }
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Unknown"
+                  }
+                },
+                "fieldName": "이벤트 요약"
+              },
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Unknown"
+                  }
+                },
+                "fieldName": "이벤트 상세 "
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "affnc1vejv3swd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 이름"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 200
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "resourceId",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/eventlogs"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업자"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "상태"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 280
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_dt"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 10,
+        "x": 14,
+        "y": 1
+      },
+      "id": 11,
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "affnc1vejv3swd"
+          },
+          "filters": [],
+          "format": "dataframe",
+          "global_query_id": "",
+          "parser": "uql",
+          "refId": "yes",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\r\n| scope \"value\"\r\n| where \"category.value\"=='Administrative'\r\n| extend \"resourceName\"=extract('.*/([^/]+)$',1,\"resourceId\")\r\n| extend \"_dt\"=todatetime(\"eventTimestamp\")\r\n| extend \"timestamp\"=format_datetime(\"_dt\",'YYYY-MM-DD HH:mm:ss')\r\n| extend \"status_at\"=strcat(\"status.localizedValue\",' at ',\"timestamp\")\r\n| project \"operation\"=\"operationName.localizedValue\", \"resourceName\", \"status_at\", \"caller\", \"status\"=\"status.localizedValue\", \"resourceId\"\r\n| order by \"_dt\" desc",
+          "url": "https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp%20ge%20'${__from:date:iso}'%20and%20eventTimestamp%20le%20'${__to:date:iso}'%20and%20resourceProvider%20eq%20'Microsoft.Compute'",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "_dt": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "caller": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "level": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "operation": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "resourceId": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "resourceName": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "status_at": {
+                "aggregations": [
+                  "first"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "resourceId": false,
+              "status": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "caller": 4,
+              "level": 0,
+              "operation": 1,
+              "resourceName": 2,
+              "status": 5,
+              "status_at (first)": 3
+            },
+            "renameByName": {
+              "caller": "작업자",
+              "level": "심각도",
+              "operation": "작업",
+              "resourceGroupName": "리소스 그룹",
+              "resourceName": "리소스 이름",
+              "status_at": "상태",
+              "status_at (first)": "상태",
+              "status_at (last)": "상태",
+              "timestamp": "시간대"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 0,
+        "y": 11
+      },
+      "id": 16,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fff0f6 ;\">\n    <span style=\"font-weight: 500;\">Resource Health (Network, Storage, etc...)</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 14,
+        "y": 11
+      },
+      "id": 19,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fff0f6 ;\">\n    <span style=\"font-weight: 500;\">Administrative (Network, Storage, etc...)</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "affnc1vejv3swd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 이름"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "resourceId",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/resourcehealth"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "이벤트 요약"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Unknown": {
+                        "index": 0,
+                        "text": "-"
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": ".*Redeploy.*",
+                      "result": {
+                        "color": "light-red",
+                        "index": 1
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 230
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "이벤트 상세 "
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Unknown": {
+                        "index": 0,
+                        "text": "-"
+                      }
+                    },
+                    "type": "value"
+                  },
+                  {
+                    "options": {
+                      "pattern": ".*down.*",
+                      "result": {
+                        "color": "light-red",
+                        "index": 1
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 500
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "심각도"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Critical": {
+                        "color": "light-red",
+                        "index": 0
+                      },
+                      "Error": {
+                        "color": "light-orange",
+                        "index": 1
+                      },
+                      "Informational": {
+                        "color": "light-green",
+                        "index": 3
+                      },
+                      "Warning": {
+                        "color": "light-yellow",
+                        "index": 2
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 14,
+        "x": 0,
+        "y": 12
+      },
+      "id": 13,
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "affnc1vejv3swd"
+          },
+          "filters": [],
+          "format": "dataframe",
+          "global_query_id": "",
+          "parser": "uql",
+          "refId": "no",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\r\n| scope \"value\"\r\n| where \"category.value\"=~'ResourceHealth'\r\n| where \"resourceProviderName.value\"!='MICROSOFT.COMPUTE'\r\n| extend \"resourceName\"=extract('.*/([^/]+)$',1,\"resourceId\")\r\n| extend \"_dt\"=todatetime(\"eventTimestamp\")\r\n| extend \"timestamp\"=format_datetime(\"_dt\",'YYYY-MM-DD HH:mm:ss')\r\n| extend \"status_at\"=strcat(\"status.localizedValue\",' at ',\"timestamp\")\r\n| project \"level\", \"title\"=\"properties.title\", \"details\"=\"properties.details\", \"resourceName\"=tolower(\"resourceName\"), \"status_at\"\r\n| order by \"_dt\" desc",
+          "url": "https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp%20ge%20'${__from:date:iso}'%20and%20eventTimestamp%20le%20'${__to:date:iso}'",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "details": false,
+              "resourceId": false
+            },
+            "includeByName": {},
+            "indexByName": {
+              "details": 3,
+              "level": 0,
+              "resourceName": 1,
+              "status_at": 4,
+              "title": 2
+            },
+            "renameByName": {
+              "details": "이벤트 상세 ",
+              "level": "심각도",
+              "resourceId": "",
+              "resourceName": "리소스 이름",
+              "status": "상태",
+              "status_at": "상태",
+              "timestamp": "시간대",
+              "title": "이벤트 요약"
+            }
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Unknown"
+                  }
+                },
+                "fieldName": "이벤트 요약"
+              },
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "Unknown"
+                  }
+                },
+                "fieldName": "이벤트 상세 "
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "affnc1vejv3swd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "리소스 이름"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 200
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "resourceId",
+                    "url": "https://portal.azure.com/#resource${__data.fields.resourceId}/eventlogs"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "작업자"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "상태"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 280
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "resourceId"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_dt"
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom.viz",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 10,
+        "x": 14,
+        "y": 12
+      },
+      "id": 14,
+      "options": {
+        "cellHeight": "md",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "affnc1vejv3swd"
+          },
+          "filters": [],
+          "format": "dataframe",
+          "global_query_id": "",
+          "parser": "uql",
+          "refId": "no",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "uql": "parse-json\r\n| scope \"value\"\r\n| where \"category.value\"=='Administrative'\r\n| where \"resourceProviderName.value\"!='Microsoft.Compute'\r\n| extend \"resourceName\"=extract('.*/([^/]+)$',1,\"resourceId\")\r\n| extend \"_dt\"=todatetime(\"eventTimestamp\")\r\n| extend \"timestamp\"=format_datetime(\"_dt\",'YYYY-MM-DD HH:mm:ss')\r\n| extend \"status_at\"=strcat(\"status.localizedValue\",' at ',\"timestamp\")\r\n| project \"operation\"=\"operationName.localizedValue\", \"resourceName\", \"status_at\", \"caller\", \"status\"=\"status.localizedValue\", \"resourceId\"\r\n| order by \"_dt\" desc",
+          "url": "https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Insights/eventtypes/management/values?api-version=2015-04-01&$filter=eventTimestamp%20ge%20'${__from:date:iso}'%20and%20eventTimestamp%20le%20'${__to:date:iso}'",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "_dt": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "caller": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "level": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "operation": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "resourceId": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "resourceName": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "status": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "status_at": {
+                "aggregations": [
+                  "first"
+                ],
+                "operation": "aggregate"
+              }
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "resourceId": false,
+              "status": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "caller": 4,
+              "level": 0,
+              "operation": 1,
+              "resourceName": 2,
+              "status": 5,
+              "status_at (first)": 3
+            },
+            "renameByName": {
+              "caller": "작업자",
+              "level": "심각도",
+              "operation": "작업",
+              "resourceGroupName": "리소스 그룹",
+              "resourceName": "리소스 이름",
+              "status_at": "상태",
+              "status_at (first)": "상태",
+              "status_at (last)": "상태",
+              "timestamp": "시간대"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 4,
+        "x": 0,
+        "y": 21
+      },
+      "id": 17,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<div style=\"display: flex; justify-content: center; height: 100%; color: #black; font-size: 15px; flex-direction: column; text-align: center; width: 100%; background-color: #fff0f6 ;\">\n    <span style=\"font-weight: 500;\">Service Health</span>\n</div>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "12.4.1",
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "grafana-azure-monitor-datasource",
+        "uid": "dffkcdlrvbpc0f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false,
+            "wrapText": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": 0
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "심각도"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Critical": {
+                        "color": "light-red",
+                        "index": 3
+                      },
+                      "Error": {
+                        "color": "light-orange",
+                        "index": 2
+                      },
+                      "Informational": {
+                        "color": "light-green",
+                        "index": 0
+                      },
+                      "Warning": {
+                        "color": "light-yellow",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "유형"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "이슈 요약"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 750
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "상태"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "Active": {
+                        "color": "light-blue",
+                        "index": 0
+                      },
+                      "Resolved": {
+                        "color": "#b4b4b4",
+                        "index": 1
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "pill"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "추적 ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "서비스 상태",
+                    "url": "https://portal.azure.com/#view/Microsoft_Azure_Health/AzureHealthBrowseBlade/~/${__data.fields.EventType}"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "영향을 받는 서비스 "
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "시작 시간"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "종료 시간"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "enablePagination": false,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "temp"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "azureMonitor": {
+            "allowedTimeGrainsMs": [],
+            "timeGrain": "auto"
+          },
+          "azureResourceGraph": {
+            "query": "ServiceHealthResources\r\n| where type =~ 'Microsoft.ResourceHealth/events'\r\n| extend impactStart = todatetime(properties.ImpactStartTime),\r\n         impactMitig = todatetime(properties.ImpactMitigationTime),\r\n         ImpactArray = properties.Impact,\r\n         EventLevel  = tostring(properties.EventLevel),\r\n         EventType   = tostring(properties.EventType),\r\n         Status      = tostring(properties.Status),\r\n         Title       = tostring(properties.Title)\r\n| mv-expand ImpactItem = ImpactArray to typeof(dynamic)\r\n| extend ImpactedService = tostring(ImpactItem.ImpactedService)\r\n| mv-expand RegionItem = ImpactItem.ImpactedRegions to typeof(dynamic)\r\n| extend ImpactedRegion = tostring(RegionItem.ImpactedRegion)\r\n| summarize\r\n    ImpactedServicesList = make_set(ImpactedService),\r\n    ImpactedRegionsList  = make_set(ImpactedRegion)\r\n  by Status, EventLevel, EventType, Title, name, impactStart, impactMitig\r\n| extend impactStartKST = impactStart + 9h,\r\n         impactMitigKST = impactMitig + 9h\r\n| extend ImpactStartTime      = format_datetime(impactStartKST, 'yyyy-MM-dd HH:mm:ss'),\r\n         ImpactMitigationTime = format_datetime(impactMitigKST, 'yyyy-MM-dd HH:mm:ss')\r\n| extend ImpactedService  = replace_string(replace_string(replace_string(tostring(ImpactedServicesList), '[\"', ''), '\"]', ''), '\",\"', ', '),\r\n         ImpactedRegions  = replace_string(replace_string(replace_string(tostring(ImpactedRegionsList),  '[\"', ''), '\"]', ''), '\",\"', ', ')\r\n| project Status, EventLevel, EventType, Title, ImpactStartTime, ImpactMitigationTime, ImpactedService, ImpactedRegions, name\r\n| order by ImpactMitigationTime desc"
+          },
+          "datasource": {
+            "type": "grafana-azure-monitor-datasource",
+            "uid": "dffkcdlrvbpc0f"
+          },
+          "queryType": "Azure Resource Graph",
+          "refId": "A",
+          "subscriptions": [
+            "$subscriptionId"
+          ]
+        }
+      ],
+      "title": "",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "EventLevel": 1,
+              "EventType": 2,
+              "ImpactMitigationTime": 5,
+              "ImpactStartTime": 4,
+              "ImpactedRegions": 7,
+              "ImpactedService": 6,
+              "Status": 0,
+              "Title": 3,
+              "name": 8
+            },
+            "renameByName": {
+              "EventLevel": "심각도",
+              "EventType": "유형",
+              "ImpactMitigationTime": "종료 시간",
+              "ImpactStartTime": "시작 시간",
+              "ImpactedRegions": "영향을 받는 지역",
+              "ImpactedService": "영향을 받는 서비스 ",
+              "Status": "상태",
+              "Title": "이슈 요약",
+              "end": "영향 종료 시간",
+              "eventLevel": "심각도",
+              "eventType": "이벤트 유형",
+              "impactedRegion (allValues)": "영향을 받은 지역",
+              "name": "추적 ID",
+              "start": "영향 시작 시간",
+              "status": "이벤트 상태",
+              "title": "이슈 요약",
+              "trackingId": "트래킹 ID"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "nc-aservice-tt",
+          "value": "f5ecaec6-db77-41a2-a63f-333d3100a7ad"
+        },
+        "datasource": {
+          "type": "grafana-azure-monitor-datasource",
+          "uid": "dffkcdlrvbpc0f"
+        },
+        "definition": "",
+        "label": "구독",
+        "name": "subscriptionId",
+        "options": [],
+        "query": {
+          "azureLogAnalytics": {
+            "query": "",
+            "resources": []
+          },
+          "queryType": "Azure Subscriptions",
+          "refId": "A",
+          "subscriptions": []
+        },
+        "refresh": 1,
+        "regex": "",
+        "regexApplyTo": "value",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "2. Activity Log",
+  "uid": "adhhlcl",
+  "version": 41,
+  "weekStart": ""
+}
